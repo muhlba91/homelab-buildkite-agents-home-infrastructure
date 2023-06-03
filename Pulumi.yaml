@@ -1,0 +1,6 @@
+name: home-buildkite-proxmox
+description: "Homelab: Home Buildkite Agents - Infrastructure"
+runtime:
+  name: nodejs
+  options:
+    typescript: false

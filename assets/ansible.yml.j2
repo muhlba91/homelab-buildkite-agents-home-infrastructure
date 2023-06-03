@@ -1,0 +1,57 @@
+---
+all:
+  vars:
+    ansible_user: {{ username }}
+    ansible_become: true
+    ansible_become_user: root
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_ssh_private_key_file: outputs/ssh.key
+    ufw_rules:
+      # BGP
+      - comment: BGP
+        port: "179"
+        proto: tcp
+        rule: allow
+      # portmap
+      - comment: portmap
+        port: "111"
+        proto: udp
+        rule: allow
+      - comment: portmap
+        port: "111"
+        proto: tcp
+        rule: allow
+    buildkite_agent_version: {{ buildkiteVersion }}
+    buildkite_environment: {{ environment }}
+    buildkite_ssh_key: {{ sshPrivateKey }}
+    buildkite_organizations:
+    {%- for name, organization in organizations %}
+      - name: {{ name }}
+        token: {{ organization.token }}
+        spawn: {{ organization.spawn }}
+        {%- if organization.doppler %}
+        doppler:
+          token: {{ organization.doppler.token }}
+        {%- endif %}
+        minio:
+          bucket: {{ organization.minio.bucket }}
+          endpoint: {{ organization.minio.endpoint }}
+          region: {{ organization.minio.region }}
+          access_key: {{ organization.minio.accessKey }}
+          secret_access_key: {{ organization.minio.secretAccessKey }}
+        gcp:
+          bucket: {{ organization.gcp.bucket }}
+          key: {{ organization.gcp.key }}
+          access_key: {{ organization.gcp.accessKey }}
+          secret_access_key: {{ organization.gcp.secretAccessKey }}
+    {%- endfor %}
+  hosts:
+  {%- for server in servers %}
+    {{ server.hostname }}:
+      ansible_host: {{ server.ipv4Address }}
+  {%- endfor %}
+  children:
+    buildkite:
+    {%- for server in servers %}
+      {{ server.hostname }}:
+    {%- endfor %}

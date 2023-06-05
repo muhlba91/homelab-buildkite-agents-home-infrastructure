@@ -1,6 +1,7 @@
-import { AgentToken, Provider } from '@grapl/pulumi-buildkite';
 import * as gcp from '@pulumi/gcp';
 import { all, Output } from '@pulumi/pulumi';
+import { Provider } from '@pulumiverse/buildkite';
+import { AgentToken } from '@pulumiverse/buildkite/agent';
 
 import { BuildkiteOrganizationData } from '../../model/buildkite_data';
 import { ServiceAccountData } from '../../model/gcp/service_account_data';
@@ -96,6 +97,7 @@ const _createSecretsAndConfiguration = (
  */
 const _createBuildkiteToken = (organization: string): AgentToken => {
   const buildkiteProvider = new Provider('buildkite-' + organization, {
+    apiToken: process.env.BUILDKITE_API_TOKEN ?? '',
     organization: organization,
   });
   return new AgentToken(

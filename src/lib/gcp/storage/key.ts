@@ -14,7 +14,7 @@ export const createHMACKey = (
   name: string,
   project: string,
   serviceAccountId: string | Output<string>,
-  { pulumiOptions }: { readonly pulumiOptions?: CustomResourceOptions }
+  { pulumiOptions }: { readonly pulumiOptions?: CustomResourceOptions },
 ): gcp.storage.HmacKey =>
   new gcp.storage.HmacKey(
     'gcp-storgae-hmac-key-' + name,
@@ -22,5 +22,5 @@ export const createHMACKey = (
       project: project,
       serviceAccountEmail: serviceAccountId,
     },
-    pulumiOptions
+    pulumiOptions,
   );

@@ -29,7 +29,7 @@ export const createBuildkiteConfigurations = (): StringMap<
     Object.entries(buildkiteConfig.organizations).map((entry) => [
       entry[0],
       _createSecretsAndConfiguration(entry[0]),
-    ])
+    ]),
   );
 
 /**
@@ -39,7 +39,7 @@ export const createBuildkiteConfigurations = (): StringMap<
  * @returns {Output<BuildkiteOrganizationData>} the organization configuration
  */
 const _createSecretsAndConfiguration = (
-  organization: string
+  organization: string,
 ): Output<BuildkiteOrganizationData> => {
   const buildkiteToken = _createBuildkiteToken(organization);
 
@@ -66,7 +66,7 @@ const _createSecretsAndConfiguration = (
       doppler: buildkiteConfig.organizations[organization].doppler
         ? {
             token: b64encode(
-              buildkiteConfig.organizations[organization].doppler?.token ?? ''
+              buildkiteConfig.organizations[organization].doppler?.token ?? '',
             ),
           }
         : undefined,
@@ -81,11 +81,11 @@ const _createSecretsAndConfiguration = (
         bucket: `buildkite-agent-cache-${environment}`,
         accessKey: b64encode('buildkite-agent'),
         secretAccessKey: b64encode(
-          buildkiteConfig.organizations[organization].minio.s3AccessKey
+          buildkiteConfig.organizations[organization].minio.s3AccessKey,
         ),
         region: defaultMinioRegion,
       },
-    })
+    }),
   );
 };
 
@@ -107,7 +107,7 @@ const _createBuildkiteToken = (organization: string): AgentToken => {
     },
     {
       provider: buildkiteProvider,
-    }
+    },
   );
 };
 
@@ -124,9 +124,9 @@ const _createGCPServiceAccount = (organization: string): ServiceAccountData =>
     {
       roles: buildkiteConfig.organizations[organization].gcp.roles.map(
         (role) =>
-          `projects/${buildkiteConfig.organizations[organization].gcp.project}/roles/${role}`
+          `projects/${buildkiteConfig.organizations[organization].gcp.project}/roles/${role}`,
       ),
-    }
+    },
   );
 
 /**
@@ -138,13 +138,13 @@ const _createGCPServiceAccount = (organization: string): ServiceAccountData =>
  */
 const _createGCPServiceAccountHMACKey = (
   organization: string,
-  serviceAccount: ServiceAccountData
+  serviceAccount: ServiceAccountData,
 ): gcp.storage.HmacKey =>
   createHMACKey(
     organization,
     buildkiteConfig.organizations[organization].gcp.project,
     serviceAccount.serviceAccount.email,
-    {}
+    {},
   );
 
 /**
@@ -177,5 +177,5 @@ const _createArtifactsBucket = (organization: string): gcp.storage.Bucket =>
         purpose: 'artifacts',
       },
     },
-    {}
+    {},
   );

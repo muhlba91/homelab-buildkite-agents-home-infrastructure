@@ -34,9 +34,9 @@ export = async () => {
         server[0],
         userPasswordPlain,
         sshPublicKey.trim(),
-        server[1]
-      )
-    )
+        server[1],
+      ),
+    ),
   );
 
   writeFilePulumiAndUploadToS3('ssh.key', sshKey.privateKeyPem, {
@@ -53,9 +53,9 @@ export = async () => {
           buildkiteVersion: buildkiteConfig.version,
           sshPrivateKey: buildkiteConfig.sshKey,
           organizations: configurations,
-        })
+        }),
     ),
-    {}
+    {},
   );
 
   return {};
@@ -71,7 +71,7 @@ export = async () => {
 const writeFilePulumiAndUploadToS3 = (
   name: string,
   content: Output<string>,
-  { permissions = '0644' }: { readonly permissions?: string }
+  { permissions = '0644' }: { readonly permissions?: string },
 ) => {
   const path = 'outputs/' + name;
   writeFilePulumi(path, content, {
@@ -81,7 +81,7 @@ const writeFilePulumiAndUploadToS3 = (
       bucketId,
       'buildkite/home/' + environment + '/' + name,
       path,
-      {}
+      {},
     );
   });
 };

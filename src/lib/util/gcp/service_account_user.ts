@@ -22,11 +22,11 @@ export const createGCPServiceAccountAndKey = (
   }: {
     readonly roles?: readonly string[];
     readonly pulumiOptions?: CustomResourceOptions;
-  }
+  },
 ): ServiceAccountData => {
   const accountName = ('buildkite-home-' + environment + '-' + name).substring(
     0,
-    30
+    30,
   );
   const serviceAccount = createServiceAccount(accountName, project, {
     roles: roles,

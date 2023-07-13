@@ -372,9 +372,9 @@
     "@pulumi/pulumi" "^3.0.0"
 
 "@pulumiverse/buildkite@^2.0.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@pulumiverse/buildkite/-/buildkite-2.2.0.tgz#cf7bed954aedfd2a9a8a0dcfb42a1fcfc9edaffb"
-  integrity sha512-AhCh7qiezB3q989jrwP1sHcTDehQ5t4O9nJhvA97W4HJrikFvBrlmzVco0LqMqrGXhsSHch3362Iq4qJWqp7iQ==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@pulumiverse/buildkite/-/buildkite-2.3.0.tgz#ed0b7b4cbbc3c36a61efd33c84b362fde45d9457"
+  integrity sha512-JSGmEA/lVGWCh8xHvr9HmZZj9Pq3/lr8jLD5GTcUOfPK/NZ+3qW93kTfpZ+3lNSSd08jcAXwjaW5uD71xnAMpw==
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 

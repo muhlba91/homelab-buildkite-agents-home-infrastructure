@@ -112,6 +112,7 @@ export const createServer = (
         type: 'nocloud',
         datastoreId: pveConfig.storagePool[server.host],
         vendorDataFileId: vendorConfig.id,
+        interface: 'ide2',
         dns: {
           domain: networkConfig.domain,
           server: networkConfig.nameservers.join(' '),

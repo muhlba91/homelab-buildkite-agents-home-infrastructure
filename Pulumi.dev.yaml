@@ -64,6 +64,4 @@ config:
       memory:
         max: 4096
         min: 2048
-    buildkite-agent-002:
-      diskSize: 64
   home-buildkite-proxmox:username: proxmox

@@ -71,13 +71,4 @@ config:
       memory:
         max: 5120
         min: 3072
-    buildkite-agent-002:
-      cpu: 4
-      diskSize: 128
-      host: pve3
-      ipv4Address: 10.0.81.2
-      ipv6Address: 2a01:aea0:dd3:25a:1000:4:2:2
-      memory:
-        max: 5120
-        min: 3072
   home-buildkite-proxmox:username: proxmox

@@ -457,9 +457,9 @@
   integrity sha512-najjVq5KN2vsH2U/xyh2opaSEz6cZMR2SetLIlxlj08nOcmPOemJmUK2o4kUzfLqfrWE0PIrNeE16XhYDd3nqg==
 
 "@types/nunjucks@^3.2.2":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@types/nunjucks/-/nunjucks-3.2.3.tgz#994e68cb575c3ac1be27e6f99543183b3c3605aa"
-  integrity sha512-+lFIql0nbWSftazQ27cOYvSLC92SsfjxrU0I/Iys7hoxrBkN8OF+wmxxzx3bLFyFrLgDZ9lUckGcwldE4SfDQA==
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@types/nunjucks/-/nunjucks-3.2.4.tgz#3ee12a8fcd2633898f6a40e6f891b845d45f0019"
+  integrity sha512-Ro2d3CROK+QNreS9MgFloCuRyHaLHyxkoiDax97uUWHQQwtKckH11ZvJfRVEuYGcTgJPY7JFwrjK3jRCTRLXwQ==
 
 "@types/qs@*":
   version "6.9.8"
@@ -472,9 +472,9 @@
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
 "@types/semver@^7.5.0":
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.5.1.tgz#0480eeb7221eb9bc398ad7432c9d7e14b1a5a367"
-  integrity sha512-cJRQXpObxfNKkFAZbJl2yjWtJCqELQIdShsogr1d2MilP8dKD9TE/nEKHkJgUNHdGKCQaf9HbIynuV2csLGVLg==
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.5.2.tgz#31f6eec1ed7ec23f4f05608d3a2d381df041f564"
+  integrity sha512-7aqorHYgdNO4DM36stTiGO3DvKoex9TQRwsJU6vMaFGyqpBA1MNZkz+PG3gaNUPpTAOYhT1WR7M1JyA3fbS9Cw==
 
 "@types/send@*":
   version "0.17.1"

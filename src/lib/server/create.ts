@@ -77,7 +77,7 @@ export const createServer = (
       disks: [
         {
           interface: 'scsi0',
-          datastoreId: pveConfig.storagePool[server.host],
+          datastoreId: pveConfig.storagePool,
           fileId: pveConfig.imageName,
           size: server.diskSize,
           fileFormat: 'qcow2',
@@ -87,7 +87,7 @@ export const createServer = (
         },
       ],
       efiDisk: {
-        datastoreId: pveConfig.storagePool[server.host],
+        datastoreId: pveConfig.storagePool,
         preEnrolledKeys: false,
         fileFormat: 'qcow2',
         type: '4m',
@@ -110,7 +110,7 @@ export const createServer = (
       },
       initialization: {
         type: 'nocloud',
-        datastoreId: pveConfig.storagePool[server.host],
+        datastoreId: pveConfig.storagePool,
         vendorDataFileId: vendorConfig.id,
         interface: 'ide2',
         dns: {

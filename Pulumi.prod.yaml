@@ -54,21 +54,9 @@ config:
       - 2606:4700:4700::1111
   home-buildkite-proxmox:pve:
     cpuType: host
-    imageName: local:iso/debian-bullseye-genericcloud.img
+    imageName: local:iso/debian-bookworm-genericcloud.img
     localStoragePool: local
     networkBridge: vmbr0
-    storagePool:
-      pve1: minpool
-      pve2: minpool
-      pve3: minpool
-  home-buildkite-proxmox:servers:
-    buildkite-agent-001:
-      cpu: 4
-      diskSize: 128
-      host: pve2
-      ipv4Address: 10.0.81.1
-      ipv6Address: 2a01:aea0:dd3:25a:1000:4:2:1
-      memory:
-        max: 5120
-        min: 3072
+    storagePool: storage-pool
+  home-buildkite-proxmox:servers: {}
   home-buildkite-proxmox:username: proxmox

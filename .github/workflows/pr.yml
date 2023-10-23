@@ -82,9 +82,7 @@ jobs:
           yarn build
 
   preview:
-    runs-on:
-      - tuxnet
-      - vpn
+    runs-on: ubuntu-latest
     name: Pulumi Preview
     needs:
       - conform
@@ -109,6 +107,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
+
       - run: |
           npm install -g yarn
 
@@ -116,18 +119,23 @@ jobs:
           yarn install
           yarn build
 
+      - uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:github-actions
+      
       - uses: pulumi/actions@v4
         with:
           command: preview
           stack-name: prod
           comment-on-pr: true
+          refresh: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
         env:
-          GITHUB_TOKEN: "${{ secrets.GH_PAT_TOKEN }}"
           CLOUDSDK_COMPUTE_REGION: "${{ secrets.CLOUDSDK_COMPUTE_REGION }}"
-          CLOUDSDK_CORE_PROJECT: "${{ secrets.CLOUDSDK_CORE_PROJECT }}"
-          BUILDKITE_API_TOKEN: "${{ secrets.BUILDKITE_API_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GH_PAT_TOKEN }}"
           PULUMI_ACCESS_TOKEN: "${{ secrets.PULUMI_ACCESS_TOKEN }}"
-          GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}"
+          BUILDKITE_API_TOKEN: "${{ secrets.BUILDKITE_API_TOKEN }}"
           PROXMOX_VE_USERNAME: "${{ secrets.PROXMOX_VE_USERNAME }}"
           PROXMOX_VE_PASSWORD: "${{ secrets.PROXMOX_VE_PASSWORD }}"
           PROXMOX_VE_ENDPOINT: "${{ secrets.PROXMOX_VE_ENDPOINT }}"

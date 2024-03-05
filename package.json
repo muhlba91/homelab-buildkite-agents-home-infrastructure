@@ -33,7 +33,7 @@
     "@pulumi/google-native": "^0.31.0",
     "@pulumi/pulumi": "^3.69.0",
     "@pulumi/random": "^4.13.2",
-    "@pulumi/tls": "^4.10.0",
+    "@pulumi/tls": "^5.0.0",
     "@pulumiverse/buildkite": "^2.0.0",
     "nunjucks": "^3.2.4"
   },

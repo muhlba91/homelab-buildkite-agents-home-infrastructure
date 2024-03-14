@@ -539,9 +539,9 @@
     "@pulumi/pulumi" "^3.0.0"
 
 "@pulumi/tls@^4.10.0":
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/@pulumi/tls/-/tls-4.11.0.tgz#80f680a090df8e816cc1e614f7374835c2109938"
-  integrity sha512-avyH8nHoxNAyO8oRyYZ/uhj5KXrCh7OfACV2VtEA5DTq9BmeRMgu3Oi3Rh1iMLvSbfGsUMAIEop3Wbp+R1HS+g==
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/@pulumi/tls/-/tls-4.11.1.tgz#37ebaf32e90314d58cc0f2c172778cc587136432"
+  integrity sha512-etm2mPrkYUWCPPZTfA1Oplx4tNTZL2fRh9RbKuOOrYBnDLnLkvkcJGvPFIG37VJvMdX5BDL51He5zQqSmq1HBQ==
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 

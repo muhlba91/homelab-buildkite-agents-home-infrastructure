@@ -151,10 +151,10 @@
   resolved "https://registry.yarnpkg.com/@logdna/tail-file/-/tail-file-2.2.0.tgz#158a362d293f940dacfd07c835bf3ae2f9e0455a"
   integrity sha512-XGSsWDweP80Fks16lwkAUIr54ICyBs6PsI4mpfTLQaWgEJRtY9xEV+PeyDpJ+sJEGZxqINlpmAwe/6tS1pP8Ng==
 
-"@muhlba91/pulumi-proxmoxve@^5.11.0":
-  version "5.25.0"
-  resolved "https://registry.yarnpkg.com/@muhlba91/pulumi-proxmoxve/-/pulumi-proxmoxve-5.25.0.tgz#8efaebbbbb7e024ed6e2fa4e162c20a573f7edc2"
-  integrity sha512-W+AruW+ovz+4G41B5cdc5DnqYlrZAHiW6a6UjvMgBGKkEOjL08fS+7ItQqNrV1hGKK5XZues+e4DMDB8rxGO0A==
+"@muhlba91/pulumi-proxmoxve@^6.0.0":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@muhlba91/pulumi-proxmoxve/-/pulumi-proxmoxve-6.3.1.tgz#fa2f7e1e1e6637c2b59102596ef324848a58f802"
+  integrity sha512-TpZU6cshrh8k9NWGCM3x+eC4tG5AUWguW4rsi0OGVzFSBveW0eRPUmNoaTj79rWwLOPBMwkOIv8adfIRQS8t8Q==
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 

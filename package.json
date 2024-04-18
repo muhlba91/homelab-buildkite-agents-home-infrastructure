@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@muhlba91/pulumi-proxmoxve": "^6.0.0",
-    "@pulumi/gcp": "^6.57.0",
+    "@pulumi/gcp": "^7.0.0",
     "@pulumi/google-native": "^0.31.0",
     "@pulumi/pulumi": "^3.69.0",
     "@pulumi/random": "^4.13.2",

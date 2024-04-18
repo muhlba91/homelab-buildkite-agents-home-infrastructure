@@ -31,7 +31,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        node-version: ["16"]
+        node-version: ["18"]
 
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
@@ -42,10 +42,31 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - uses: hashicorp/vault-action@v3
+        id: import-secrets
+        with:
+          method: jwt
+          url: ${{ secrets.VAULT_ADDR }}
+          path: ${{ secrets.VAULT_PATH }}
+          role: ${{ secrets.VAULT_ROLE }}
+          secrets: |
+            github-homelab-buildkite-agents-home-infrastructure/data/pulumi access_token | PULUMI_ACCESS_TOKEN ;
+            github-homelab-buildkite-agents-home-infrastructure/data/google-cloud region | CLOUDSDK_COMPUTE_REGION ;
+            github-homelab-buildkite-agents-home-infrastructure/data/google-cloud workload_identity_provider | GOOGLE_WORKLOAD_IDENTITY_PROVIDER ;
+            github-homelab-buildkite-agents-home-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
+            github-homelab-buildkite-agents-home-infrastructure/data/github token | GH_PAT_TOKEN ;
+            github-homelab-buildkite-agents-home-infrastructure/data/buildkite token | BUILDKITE_API_TOKEN ;
+            github-homelab-buildkite-agents-home-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
+            github-homelab-buildkite-agents-home-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
+            github-homelab-buildkite-agents-home-infrastructure/data/proxmox username | PROXMOX_VE_USERNAME ;
+            github-homelab-buildkite-agents-home-infrastructure/data/proxmox password | PROXMOX_VE_PASSWORD ;
+            github-homelab-buildkite-agents-home-infrastructure/data/proxmox endpoint | PROXMOX_VE_ENDPOINT ;
+            github-homelab-buildkite-agents-home-infrastructure/data/proxmox insecure | PROXMOX_VE_INSECURE
+
       - uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
 
       - run: |
           npm install -g yarn
@@ -56,8 +77,8 @@ jobs:
 
       - uses: tailscale/github-action@v2
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ env.TS_OAUTH_SECRET }}
           tags: tag:github-actions
       
       - uses: pulumi/actions@v4
@@ -66,89 +87,106 @@ jobs:
           stack-name: prod
           refresh: true
         env:
-          CLOUDSDK_COMPUTE_REGION: "${{ secrets.CLOUDSDK_COMPUTE_REGION }}"
-          GITHUB_TOKEN: "${{ secrets.GH_PAT_TOKEN }}"
-          PULUMI_ACCESS_TOKEN: "${{ secrets.PULUMI_ACCESS_TOKEN }}"
-          BUILDKITE_API_TOKEN: "${{ secrets.BUILDKITE_API_TOKEN }}"
-          PROXMOX_VE_USERNAME: "${{ secrets.PROXMOX_VE_USERNAME }}"
-          PROXMOX_VE_PASSWORD: "${{ secrets.PROXMOX_VE_PASSWORD }}"
-          PROXMOX_VE_ENDPOINT: "${{ secrets.PROXMOX_VE_ENDPOINT }}"
-          PROXMOX_VE_INSECURE: "${{ secrets.PROXMOX_VE_INSECURE }}"
+          GITHUB_TOKEN: "${{ env.GH_PAT_TOKEN }}"
 
-  deploy:
-    runs-on: ubuntu-latest
-    name: Pulumi Deploy
-    needs:
-      - preview
-    strategy:
-      max-parallel: 12
-      matrix:
-        node-version: ["16"]
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   name: Pulumi Deploy
+  #   needs:
+  #     - preview
+  #   strategy:
+  #     max-parallel: 12
+  #     matrix:
+  #       node-version: ["18"]
 
-    steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+  #       with:
+  #         fetch-depth: 0
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
-      - uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
+  #     - uses: hashicorp/vault-action@v3
+  #       id: import-secrets
+  #       with:
+  #         method: jwt
+  #         url: ${{ secrets.VAULT_ADDR }}
+  #         path: ${{ secrets.VAULT_PATH }}
+  #         role: ${{ secrets.VAULT_ROLE }}
+  #         secrets: |
+  #           github-homelab-buildkite-agents-home-infrastructure/data/pulumi access_token | PULUMI_ACCESS_TOKEN ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/google-cloud region | CLOUDSDK_COMPUTE_REGION ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/google-cloud workload_identity_provider | GOOGLE_WORKLOAD_IDENTITY_PROVIDER ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/github token | GH_PAT_TOKEN ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/buildkite token | BUILDKITE_API_TOKEN ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/proxmox username | PROXMOX_VE_USERNAME ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/proxmox password | PROXMOX_VE_PASSWORD ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/proxmox endpoint | PROXMOX_VE_ENDPOINT ;
+  #           github-homelab-buildkite-agents-home-infrastructure/data/proxmox insecure | PROXMOX_VE_INSECURE
 
-      - run: |
-          npm install -g yarn
+  #     - uses: 'google-github-actions/auth@v1'
+  #       with:
+  #         workload_identity_provider: ${{ env.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+  #         service_account: ${{ env.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
 
-      - run: |
-          yarn install
-          yarn build
+  #     - run: |
+  #         npm install -g yarn
 
-      - uses: tailscale/github-action@v2
-        with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:github-actions
+  #     - run: |
+  #         yarn install
+  #         yarn build
+
+  #     - uses: tailscale/github-action@v2
+  #       with:
+  #         oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
+  #         oauth-secret: ${{ env.TS_OAUTH_SECRET }}
+  #         tags: tag:github-actions
       
-      - uses: pulumi/actions@v4
-        with:
-          command: up
-          stack-name: prod
-        env:
-          CLOUDSDK_COMPUTE_REGION: "${{ secrets.CLOUDSDK_COMPUTE_REGION }}"
-          GITHUB_TOKEN: "${{ secrets.GH_PAT_TOKEN }}"
-          PULUMI_ACCESS_TOKEN: "${{ secrets.PULUMI_ACCESS_TOKEN }}"
-          BUILDKITE_API_TOKEN: "${{ secrets.BUILDKITE_API_TOKEN }}"
-          PROXMOX_VE_USERNAME: "${{ secrets.PROXMOX_VE_USERNAME }}"
-          PROXMOX_VE_PASSWORD: "${{ secrets.PROXMOX_VE_PASSWORD }}"
-          PROXMOX_VE_ENDPOINT: "${{ secrets.PROXMOX_VE_ENDPOINT }}"
-          PROXMOX_VE_INSECURE: "${{ secrets.PROXMOX_VE_INSECURE }}"
+  #     - uses: pulumi/actions@v4
+  #       with:
+  #         command: up
+  #         stack-name: prod
+  #       env:
+  #         GITHUB_TOKEN: "${{ env.GH_PAT_TOKEN }}"
 
-  triggers:
-    runs-on: ubuntu-latest
-    name: Trigger Downstream Pipelines
-    needs:
-      - deploy
+  # triggers:
+  #   runs-on: ubuntu-latest
+  #   name: Trigger Downstream Pipelines
+  #   needs:
+  #     - deploy
 
-    steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Deploy Services
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: deploy.yml
-          repo: muhlba91/homelab-ansible-common-services
-          inputs: '{ "s3_asset_bucket": "infrastructure-assets-5274ba70-fde0-47de-8e9a-f1bc64c11157/buildkite/home/prod" }'
-          token: "${{ secrets.GH_PAT_TOKEN }}"
+  #     - uses: hashicorp/vault-action@v3
+  #       id: import-secrets
+  #       with:
+  #         method: jwt
+  #         url: ${{ secrets.VAULT_ADDR }}
+  #         path: ${{ secrets.VAULT_PATH }}
+  #         role: ${{ secrets.VAULT_ROLE }}
+  #         secrets: |
+  #           github-homelab-buildkite-agents-home-infrastructure/data/github token | GH_PAT_TOKEN
 
-      - name: Deploy Agents
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: deploy.yml
-          repo: muhlba91/homelab-ansible-buildkite-agent
-          inputs: '{ "s3_asset_bucket": "infrastructure-assets-5274ba70-fde0-47de-8e9a-f1bc64c11157/buildkite/home/prod" }'
-          token: "${{ secrets.GH_PAT_TOKEN }}"
+  #     - name: Deploy Services
+  #       uses: benc-uk/workflow-dispatch@v1
+  #       with:
+  #         workflow: deploy.yml
+  #         repo: muhlba91/homelab-ansible-common-services
+  #         inputs: '{ "s3_asset_bucket": "infrastructure-assets-5274ba70-fde0-47de-8e9a-f1bc64c11157/buildkite/home/prod" }'
+  #         token: "${{ env.GH_PAT_TOKEN }}"
+
+  #     - name: Deploy Agents
+  #       uses: benc-uk/workflow-dispatch@v1
+  #       with:
+  #         workflow: deploy.yml
+  #         repo: muhlba91/homelab-ansible-buildkite-agent
+  #         inputs: '{ "s3_asset_bucket": "infrastructure-assets-5274ba70-fde0-47de-8e9a-f1bc64c11157/buildkite/home/prod" }'
+  #         token: "${{ env.GH_PAT_TOKEN }}"

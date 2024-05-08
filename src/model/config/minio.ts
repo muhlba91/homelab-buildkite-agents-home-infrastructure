@@ -1,6 +1,6 @@
 /**
  * Defines Minio data.
  */
-export type MinioConfig = {
+export interface MinioConfig {
   readonly endpoint: string;
-};
+}

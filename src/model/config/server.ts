@@ -1,7 +1,7 @@
 /**
  * Defines configuration data for the server.
  */
-export type ServerConfig = {
+export interface ServerConfig {
   readonly host: string;
   readonly ipv4Address: string;
   readonly ipv6Address: string;
@@ -10,12 +10,12 @@ export type ServerConfig = {
   readonly cpuType?: string;
   readonly memory: ServerMemoryConfig;
   readonly diskSize: number;
-};
+}
 
 /**
  * Defines memory configuration data for the server.
  */
-export type ServerMemoryConfig = {
+export interface ServerMemoryConfig {
   readonly min: number;
   readonly max: number;
-};
+}
